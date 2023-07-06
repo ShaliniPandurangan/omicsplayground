@@ -102,8 +102,15 @@ singlecell_plot_cytoplot_server <- function(id,
       
       ## if(gene1 == gene2) return(NULL)
       par(mfrow = c(1, 1), mar = c(10, 5, 4, 1))
-      playbase::plotlyCytoplot(pgx, gene1, gene2, nbinsx = nbins, nbinsy = nbins, marker.size = 7,
-        samples = kk, lab.unit = "(log2CPM)", contour.coloring = 'none'
+      playbase::plotlyCytoplot(pgx, 
+                               gene1, 
+                               gene2, 
+                               nbinsx = nbins, 
+                               nbinsy = nbins, 
+                               marker.size = 7,
+                               samples = kk, 
+                               lab.unit = "(log2CPM)", 
+                               contour.coloring = 'none'
       )
     })
 
