@@ -136,8 +136,12 @@ SingleCellBoard <- function(id, pgx) {
       if (length(g1) == 0) g1 <- genes[1]
       if (length(g2) == 0) g2 <- genes[2]
 
+      defaultbin = 15
+
       shiny::updateSelectizeInput(session, "cytovar1", choices = genes, selected = g1, server = TRUE)
       shiny::updateSelectizeInput(session, "cytovar2", choices = genes, selected = g2, server = TRUE)
+      shiny::updateSliderInput(session, "nbins", min = 0, max = 50, value = 5, step = 5)
+
     })
 
 
@@ -157,7 +161,6 @@ SingleCellBoard <- function(id, pgx) {
       zx <- zx[, kk, drop = FALSE]
       zx <- head(zx[order(-apply(zx, 1, sd)), ], 1000)
       zx <- t(scale(t(zx))) ## scale??
-
       pos <- NULL
       m <- "tsne"
       m <- input$clustmethod
@@ -176,7 +179,7 @@ SingleCellBoard <- function(id, pgx) {
       pos <- scale(pos) ## scale
       colnames(pos) <- paste0("dim", 1:ncol(pos))
       rownames(pos) <- colnames(zx)
-
+      
       # code snipped from pfGetClusterPositions2, pfGetClusterPositions2 is currently never called
 
       # dbg("[pfGetClusterPositions2] computing distances and clusters...")
@@ -287,6 +290,7 @@ SingleCellBoard <- function(id, pgx) {
       samplefilter = shiny::reactive(input$samplefilter),
       cytovar1 = shiny::reactive(input$cytovar1),
       cytovar2 = shiny::reactive(input$cytovar2),
+      nbins = shiny::reactive(input$nbins),
       selectSamplesFromSelectedLevels = selectSamplesFromSelectedLevels,
       watermark = WATERMARK
     )
